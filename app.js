@@ -18,15 +18,20 @@ const loader = new GLTFLoader();
 
 
 loader.load(
-    'dog.glb',
+    'dobermann.glb',
     function (gltf) {
         dog = gltf.scene;
+  
+
         scene.add(dog);
+        dog.scale.set(30, 30, 30); // Double the size along x, y, and z axes
+        dog.position.y = 500; // Set the Y position to 5 units upwards
         modelMove();
     },
     function (xhr) {},
     function (error) {}
 )
+;
 const renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container3D').appendChild(renderer.domElement);
@@ -36,7 +41,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
 scene.add(ambientLight);
 
 const topLight = new THREE.DirectionalLight(0xffffff, 1);
-topLight.position.set(500, 500, 500);
+topLight.position.set(0, 500, 500);
 scene.add(topLight);
 
 
@@ -51,28 +56,58 @@ reRender3D();
 // transition position coordinates for moving
 let arrPositionModel = [
     {
-        id: 'banner',
-        position: {x: 0, y: -1, z: 0},
-        rotation: {x: 0, y: 1.5, z: 0},
-        cameraPositionZ: 30,
+        id: 'p0',
+        position: {x: 0, y: 0, z: 0},
+        rotation: {x: 0, y: 0, z: 0},
+        cameraPositionZ: 20,
     },
     {
-        id: "intro",
-        position: { x: 1, y: -1, z: -5 },
-        rotation: { x: 0.5, y: -0.5, z: 0 },
+        id: "p1",
+        position: { x: 5, y: 1, z: -5 },
+        rotation: { x: 0.5, y: 0, z: 0 },
+        cameraPositionZ: 35,
+    },
+    {
+        id: "p2",
+        position: { x: -4, y: 1, z: -5 },
+        rotation: { x: 0, y: 5, z: 0 },
+        cameraPositionZ: 60,
+    },
+    {
+        id: "p3",
+        position: { x: 8, y: 1, z:-5 },
+        rotation: { x: 0, y: -5, z: 0 },
         cameraPositionZ: 50,
     },
     {
-        id: "description",
-        position: { x: -1, y: -1, z: -5 },
-        rotation: { x: 0, y: 0.5, z: 0 },
+        id: "p4",
+        position: { x: -6, y: 1, z: -5 },
+        rotation: { x: 1, y: -1, z: 0 },
+        cameraPositionZ: 35,
+    },
+    {
+        id: 'p5',
+        position: {x: 2.1, y: 1, z: -5},
+        rotation: {x: 0.7, y: 0, z: 0},
+        cameraPositionZ: 20,
+    },
+    {
+        id: "p6",
+        position: { x: -4, y: 1, z: -5 },
+        rotation: { x: 0, y: 5, z: 0 },
         cameraPositionZ: 50,
     },
     {
-        id: "contact",
-        position: { x: 0.8, y: -1, z: 0 },
-        rotation: { x: 0.3, y: -0.5, z: 0 },
+        id: 'p7',
+        position: {x: 7.8, y: 1, z: -5},
+        rotation: {x: 0.5, y: 3.3, z: 0},
         cameraPositionZ: 50,
+    },
+    {
+        id: "p8",
+        position: { x: -5.5, y: 1, z: -5 },
+        rotation: { x: 0, y: -5, z: 0 },
+        cameraPositionZ: 45,
     },
 ];
 
@@ -81,7 +116,7 @@ const modelMove = () => {
     let currentSection;
     sections.forEach((section) => {
         const rect = section.getBoundingClientRect();
-        if (rect.top <= window.innerHeight / 3) {
+        if (rect.top <= window.innerHeight / 1.7) {
             currentSection = section.id;
         }
     });
@@ -94,19 +129,19 @@ const modelMove = () => {
             x: new_coordinates.position.x,
             y: new_coordinates.position.y,
             z: new_coordinates.position.z,
-            duration: 3,
+            duration: 1.5,
             ease: "power1.out"
         });
         gsap.to(dog.rotation, {
             x: new_coordinates.rotation.x,
             y: new_coordinates.rotation.y,
             z: new_coordinates.rotation.z,
-            duration: 3,
+            duration: 1.5,
             ease: "power1.out"
         });
         gsap.to(camera.position,{
             z: new_coordinates.cameraPositionZ,
-            duration: 3,
+            duration: 1.5,
             ease: "power1.out"
         });
     }
