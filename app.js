@@ -12,26 +12,7 @@ camera.position.z = 30;
 
 const scene = new THREE.Scene();
 
-let dog;
 
-const loader = new GLTFLoader();
-
-
-loader.load(
-    'dobermann.glb',
-    function (gltf) {
-        dog = gltf.scene;
-  
-
-        scene.add(dog);
-        dog.scale.set(30, 30, 30); // Double the size along x, y, and z axes
-        dog.position.y = 500; // Set the Y position to 5 units upwards
-        modelMove();
-    },
-    function (xhr) {},
-    function (error) {}
-)
-;
 const renderer = new THREE.WebGLRenderer({alpha: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('container3D').appendChild(renderer.domElement);
@@ -52,6 +33,63 @@ const reRender3D = () => {
 
 reRender3D();
 
+
+const loadingManager = new THREE.LoadingManager();
+
+const progressBar = document.getElementById('progress-bar');
+const sectionContainer = document.querySelector('.section');
+console.log('hi');
+loadingManager.onProgress = function(url, loaded, total) {
+    console.log(`Started loading: ${url}`);
+    progressBar.value = (loaded / total) * 100;
+
+}
+
+const progressBarContainer = document.querySelector('.progress-bar-container');
+loadingManager.onLoad = function(){
+    console.log(`Finished loading`);
+
+    setTimeout(function() {
+        //your code to be executed after 1 second
+        progressBarContainer.style.display = 'none';  // Hide loading bar
+
+    }, 1500);
+    
+}
+let dog;
+
+
+/*
+loadingManager.onStart = function(url, item, total) {
+    console.log(`Started loading: ${url}`);
+}
+loadingManager.onLoad = function(){
+    console.log(`Finished loading`)
+}
+loadingManager.onError = function(){
+    console.error(`Error occured when loading`)
+}
+*/
+
+
+const loader = new GLTFLoader(loadingManager);
+
+
+loader.load(
+    'dobermann.glb',
+    function (gltf) {
+        dog = gltf.scene;
+  
+
+        scene.add(dog);
+        dog.scale.set(30, 30, 30); // Double the size along x, y, and z axes
+        dog.position.y = 500; // Set the Y position to 5 units upwards
+        modelMove();
+    },
+    function (xhr) {},
+    function (error) {}
+)
+;
 
 // transition position coordinates for moving
 let arrPositionModel = [
@@ -160,3 +198,4 @@ window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 })
+
