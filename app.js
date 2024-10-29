@@ -147,6 +147,12 @@ let arrPositionModel = [
         rotation: { x: 0, y: -5, z: 0 },
         cameraPositionZ: 45,
     },
+    {
+        id: 'p9',
+        position: {x: 0, y: -0.3, z: 0},
+        rotation: {x: -0.5, y: 0, z: 3.1},
+        cameraPositionZ: 15,
+    },
 ];
 
 const modelMove = () => {
